@@ -34,36 +34,7 @@ defmodule Crumble do
     end
   end
 
-  defp default_view_name(association) do
-    String.to_atom("#{association}_view")
-    |> Macro.camelize()
-  end
-
-  defp association_fragments([])
-
-  defp association_fragments(associations) do
-    for {association, config} <- associations do
-      view = Keyword.fetch!(config, :view)
-      assign = Keyword.fetch!(config, :assign)
-      template = (Keyword.fetch!(config, :template) |> Atom.to_string()) <> ".json"
-
-      quote do
-        object =
-          Map.replace(
-            object,
-            unquote(association),
-            Phoenix.View.render(unquote(view), unquote(template), [
-              {assign, Map.fetch!(object, unquote(association))}
-            ])
-          )
-      end
-    end
-  end
-
-  defp template_defs(crumble_opts) do
-    templates = Keyword.get(crumble_opts, :templates, [])
-    associations = Keyword.get(crumble_opts, :associations, [])
-
+  defp template_defs(templates) do
     for {template, {assign_name, multiplicity}} <- templates do
       template_string = Atom.to_string(template) <> ".json"
 
@@ -71,8 +42,6 @@ defmodule Crumble do
         :single ->
           quote do
             def render(unquote(template_string), %{unquote(assign_name) => object}) do
-              object
-              unquote_splicing(association_fragments(associations))
               Map.take(object, fields(unquote(template)))
             end
           end
@@ -97,7 +66,6 @@ defmodule Crumble do
     for example:
 
       defmodule ExampleWeb.FooView do
-        use ExampleWeb, :view
         use Crumble, templates: [
           show: {:foo, :single},
           index: {:foos, :list},
@@ -136,7 +104,7 @@ defmodule Crumble do
   defmacro __using__(crumble_opts) do
     templates = Keyword.get(crumble_opts, :templates, [])
 
-    [behaviour_declaration() | fallback_defs(templates)] ++ template_defs(crumble_opts)
+    [behaviour_declaration() | fallback_defs(templates)] ++ template_defs(templates)
   end
 
   # TODO: move code generation to this callback instead, explained above

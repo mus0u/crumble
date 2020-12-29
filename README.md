@@ -1,6 +1,6 @@
 # Crumble
 
-**TODO: Add description**
+## THIS LIBRARY IS UNDER ACTIVE DEVELOPMENT. THIRD-PARTY USE IS NOT RECOMMENDED AT THIS TIME.
 
 ## Installation
 
@@ -18,4 +18,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/crumble](https://hexdocs.pm/crumble).
-

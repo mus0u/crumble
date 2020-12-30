@@ -8,16 +8,6 @@ defmodule Crumble do
   defp behaviour_declaration do
     quote do
       @behaviour unquote(__MODULE__)
-
-      # TODO: replace fields/1 callback with module attributes, which should
-      # eliminate unnecessary View.render calls on relationships when they
-      # aren't included in a given template's fields - this requires moving code
-      # generation to the before_compile callback (as module attributes are not
-      # yet available in __using__)
-
-      # @before_compile unquote(__MODULE__)
-      # Module.register_attribute(__MODULE__, :crumble_opts, persist: true)
-      # Module.put_attribute(__MODULE__, :crumble_opts, unquote(crumble_opts))
     end
   end
 
@@ -106,14 +96,4 @@ defmodule Crumble do
 
     [behaviour_declaration() | fallback_defs(templates)] ++ template_defs(templates)
   end
-
-  # TODO: move code generation to this callback instead, explained above
-
-  # defmacro __before_compile__(_env) do
-  #   crumble_opts = Module.get_attribute(env.module, :crumble_opts, [])
-  #   templates = Keyword.get(crumble_opts, :templates, [])
-
-  # fallbacks handled above, just generate regular template defs now
-  #   template_defs(templates)
-  # end
 end

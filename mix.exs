@@ -4,7 +4,7 @@ defmodule Crumble.MixProject do
   def project do
     [
       app: :crumble,
-      version: "0.0.1",
+      version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps()

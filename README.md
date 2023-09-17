@@ -1,6 +1,6 @@
 # Crumble
 
-## THIS LIBRARY IS UNDER ACTIVE DEVELOPMENT. THIRD-PARTY USE IS NOT RECOMMENDED AT THIS TIME.
+## with the deprecation of Phoenix.View and its replacement with Phoenix.HTML, the use for this library has probably passed.
 
 ## Installation
 
